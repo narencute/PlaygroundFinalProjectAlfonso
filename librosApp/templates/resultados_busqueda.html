@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Resultados de la búsqueda</h2>
+<ul>
+    {% for libro in libros %}
+    <li>{{ libro.titulo }} - {{ libro.genero }} - {{ libro.fecha_publicacion }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
