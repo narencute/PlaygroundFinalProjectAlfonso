@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body>
+    <h1>Bienvenidos a mi blog de libros</h1>
+    {% if user.is_authenticated %}
+    
+    <section>
+        {%for elemento in articulos%}
+            <article>
+                <h3>{{ elemento.titulo}}</h3>
+                <img src="{{elemento.imagen}}">
+                <p>
+                    {{ elemento.subtitulo}}
+                </p>
+                <footer>
+                    Autor: {{elemento.autor}}
+                </footer>
+            </article>
+        {%endfor%}
+    </section>
+    {% else %}
+    <h1>Por favor, inicia sesión o registrate</h1>
+    {% endif %}
+</body>
+
+<section>
+    <form action="" method="post" class="contacto">{% csrf_token %}
+        <h2>Envíame un mensaje</h2>
+        <input type="text" name="email" placeholder="Email"><br>
+        Mensaje<br>
+        <textarea name="mensaje">
+
+        </textarea><br>
+        <input type="submit" name="enviar" value="Enviar comentarios"><br>
+        {% if respuesta %}
+        {{respuesta}}
+        {% endif %}
+    </form>
+</section>
+
+</html>
+{% endblock %}
+

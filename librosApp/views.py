@@ -1,8 +1,50 @@
 from django.shortcuts import render, redirect
-from .models import Libro, Autor, Editorial
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from .models import Libro, Autor, Editorial, Entrada, Mensaje
 from .forms import LibroForm, AutorForm, EditorialForm, BusquedaForm
 
+
 # Create your views here.
+def home(request):
+    articulos = Entrada.objects.all()
+    if request.method == "POST":
+        email = request.POST["email"]
+        mensaje = request.POST["mensaje"]
+        obj = Mensaje(email=email, mensaje=mensaje)
+        obj.save()
+        respuesta = "Gracias por tu mensaje!"
+        return render(request, "home.html",{"articulos":articulos, "respuesta":respuesta})
+    return render(request, "home.html",{"articulos":articulos})
+
+def iniciar_sesion(request):
+    if request.method == 'GET':
+        return render(request, "iniciar_sesion.html", {'form': AuthenticationForm})
+    else:
+        name = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(username=name, password=password)
+        if user is None:
+            return render(request, "iniciar_sesion.html", {'form': AuthenticationForm, 'error': "Usuario o contraseña incorrectos"})
+        else:
+            login(request, user)
+            return redirect("home")
+
+def registro(request):
+    if request.method == 'GET':
+        return render(request, "registro.html", {'form': UserCreationForm})
+    else:
+        if request.POST["password1"] != request.POST["password2"]:
+            return render(request, "registro.html", {'form': UserCreationForm, 'error': "Las contraseñas no coinciden."})
+        else:
+            name = request.POST["username"]
+            password = request.POST["password1"]
+            user = User.objects.create_user(username=name, password=password)
+            user.save()
+            return render(request, "registro.html", {'form': UserCreationForm, 'error': "Usuario Registrado correctamente"})
+    
 def agregar_libro(request):
     if request.method == 'POST':
         form = LibroForm(request.POST)
@@ -43,3 +85,7 @@ def buscar(request):
     else:
         form = BusquedaForm()
     return render(request, 'buscar.html', {'form': form})
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('iniciar_sesion')

@@ -1,16 +1,52 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Autor(models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     nacionalidad = models.CharField(max_length=20)
+    
+    def __str__(self):
+        return self.nombre
 
 class Editorial(models.Model):
     nombre = models.CharField(max_length=40)
     pais = models.CharField(max_length=20)
+    
+    def __str__(self):
+        return self.nombre
 
 class Libro(models.Model):
     titulo = models.CharField(max_length=50)
     genero = models.CharField(max_length=20)
     fecha_publicacion = models.DateField()
+    
+    def __str__(self):
+        return self.titulo
+    
+class Entrada(models.Model):
+    titulo = models.CharField(max_length=30)
+    subtitulo = models.CharField(max_length=50)
+    cuerpo = models.TextField(max_length=1000)
+    imagen = models.URLField(max_length=1000)
+    autor = models.CharField(max_length=50)
+    fecha = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(unique=True)
+    
+    
+    def save(self, *args, **kwargs):
+        # Genera el slug automáticamente a partir del título
+        self.slug = slugify(self.titulo)
+        super(Entrada, self).save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.titulo
+    
+class Mensaje(models.Model):
+    email = models.EmailField(max_length=60)
+    mensaje = models.TextField(max_length=500)
+    
+    def __str__(self):
+        return self.email
+    

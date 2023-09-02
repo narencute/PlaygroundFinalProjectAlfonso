@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Blog App</title>
+    <meta charset="utf-8">
+    <title>Blog de Libros</title>
+    {%load static%}
+    <link rel="stylesheet" type="text/css" href="{% static 'estilos.css' %}">
 </head>
 <body>
 <nav>
     <ul>
-        <li><a href="{% url 'agregar_libro' %}">Agregar Libro</a></li>
-        <li><a href="{% url 'agregar_autor' %}">Agregar Autor</a></li>
-        <li><a href="{% url 'agregar_editorial' %}">Agregar Editorial</a></li>
-        <li><a href="{% url 'buscar' %}">Buscar Libro</a></li>
+        <li>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'iniciar_sesion' %}">Iniciar Sesión</a>
+            <a href="{% url 'registro' %}">Registrarse</a>
+            <a href="{% url 'buscar' %}">Buscar Libro</a>
+            <a href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+        </li>
     </ul>
 </nav>
 <div>
     {% block content %}
     {% endblock %}
 </div>
+
 </body>
 </html>
