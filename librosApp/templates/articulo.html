@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body>
+
+    
+<section>
+    <h1>{{ articulo.titulo }}</h1>
+    <img src="{{articulo.imagen}}"></a>
+    <h3>{{ articulo.subtitulo}}</h3>
+    <p>{{ articulo.cuerpo}}</p>
+    <footer>
+        Autor: {{articulo.autor}}<br>
+        Fecha: {{articulo.fecha}}
+    </footer>
+    
+</section>
+
+<div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <input type="submit" name="enviar" value="Enviar comentario">
+
+    {% for comentario in comentarios %}
+    <p>Comentario de {{comentario.usuario}}:<br>{{comentario.cuerpo}}<br>Publicado el {{comentario.fecha}}</p><br>
+
+    {% endfor %}
+
+
+</div>
+</body>
+
+<a href="/">Volver a Home</a>
+
+</html>
+{% endblock %}

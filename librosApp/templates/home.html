@@ -9,8 +9,8 @@
     <section>
         {%for elemento in articulos%}
             <article>
-                <h3>{{ elemento.titulo}}</h3>
-                <img src="{{elemento.imagen}}">
+                <a href = "{% url 'articulo_detallado' elemento.id %}"><h3>{{ elemento.titulo }}</h3>
+                <img src="{{elemento.imagen}}"></a>
                 <p>
                     {{ elemento.subtitulo}}
                 </p>

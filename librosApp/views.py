@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Libro, Autor, Editorial, Entrada, Mensaje
-from .forms import LibroForm, AutorForm, EditorialForm, BusquedaForm
+from .models import Libro, Autor, Editorial, Entrada, Mensaje, Comentario
+from .forms import LibroForm, AutorForm, EditorialForm, BusquedaForm, ComentarioForm
 
 
 # Create your views here.
@@ -89,3 +89,20 @@ def buscar(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect('iniciar_sesion')
+
+def articulo_detallado(request, entrada_id):
+    articulo = Entrada.objects.get(id=entrada_id)
+    
+    comentarios = articulo.comentario.filter(activo=True)
+    
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            nuevo_form = form.save(commit=False)
+            nuevo_form.articulo = articulo
+            nuevo_form.save()
+            
+    else:
+        form = ComentarioForm
+    
+    return render(request, 'articulo.html', {'articulo':articulo, 'comentarios':comentarios, 'form':form})

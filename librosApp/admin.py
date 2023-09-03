@@ -1,5 +1,5 @@
 from django.contrib import admin
-from librosApp.models import Entrada, Autor, Editorial, Libro, Mensaje
+from librosApp.models import Entrada, Autor, Editorial, Libro, Mensaje, Comentario
 
 # Register your models here.
 #admin.site.register(Entrada)
@@ -15,3 +15,4 @@ class EntradaAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Entrada, EntradaAdmin)
+admin.site.register(Comentario)
