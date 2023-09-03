@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{% static 'estilos.css' %}">
+
 <h2 style="color:#FFFFFF">Iniciar sesión</h2>
 <form method="post">
     {% csrf_token %}

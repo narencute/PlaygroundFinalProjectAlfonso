@@ -2,6 +2,9 @@
 
 {% block content %}
 
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{% static 'estilos.css' %}">
+
 <body>
     <h1>Bienvenidos a mi blog de libros</h1>
     {% if user.is_authenticated %}
@@ -10,7 +13,7 @@
         {%for elemento in articulos%}
             <article>
                 <a href = "{% url 'articulo_detallado' elemento.id %}"><h3>{{ elemento.titulo }}</h3>
-                <img src="{{elemento.imagen}}"></a>
+                <img class="imagen-articulo" src="{{elemento.imagen}}"></a>
                 <p>
                     {{ elemento.subtitulo}}
                 </p>
@@ -19,10 +22,18 @@
                 </footer>
             </article>
         {%endfor%}
+
+        <!--{%for elemento in categorias%}
+            <h5 class="tags">{{ elemento.titulo }}</h5>
+        {%endfor%}-->
+
     </section>
     {% else %}
     <h1>Por favor, inicia sesión o registrate</h1>
     {% endif %}
+
+    
+
 </body>
 
 <section>

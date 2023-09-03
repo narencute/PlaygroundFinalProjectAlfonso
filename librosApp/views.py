@@ -3,21 +3,22 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Libro, Autor, Editorial, Entrada, Mensaje, Comentario
+from .models import Libro, Autor, Editorial, Entrada, Mensaje, Comentario, Categoria
 from .forms import LibroForm, AutorForm, EditorialForm, BusquedaForm, ComentarioForm
 
 
 # Create your views here.
 def home(request):
     articulos = Entrada.objects.all()
+    categorias = Categoria.objects.all()
     if request.method == "POST":
         email = request.POST["email"]
         mensaje = request.POST["mensaje"]
         obj = Mensaje(email=email, mensaje=mensaje)
         obj.save()
         respuesta = "Gracias por tu mensaje!"
-        return render(request, "home.html",{"articulos":articulos, "respuesta":respuesta})
-    return render(request, "home.html",{"articulos":articulos})
+        return render(request, "home.html",{"articulos":articulos, "categorias":categorias, "respuesta":respuesta})
+    return render(request, "home.html",{"articulos":articulos, "categorias":categorias})
 
 def iniciar_sesion(request):
     if request.method == 'GET':
