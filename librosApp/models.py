@@ -3,28 +3,6 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 # Create your models here.
-class Autor(models.Model):
-    nombre = models.CharField(max_length=30)
-    apellido = models.CharField(max_length=30)
-    nacionalidad = models.CharField(max_length=20)
-    
-    def __str__(self):
-        return self.nombre
-
-class Editorial(models.Model):
-    nombre = models.CharField(max_length=40)
-    pais = models.CharField(max_length=20)
-    
-    def __str__(self):
-        return self.nombre
-
-class Libro(models.Model):
-    titulo = models.CharField(max_length=50)
-    genero = models.CharField(max_length=20)
-    fecha_publicacion = models.DateField()
-    
-    def __str__(self):
-        return self.titulo
 
 class Categoria(models.Model):
     titulo = models.CharField(max_length=50)
